@@ -30,3 +30,8 @@ func (b *Block) SetHash() {
 
 	b.Hash = hash[:]
 }
+
+// NewGenesisBlock - create first block
+func NewGenesisBlock() *Block {
+	return NewBlock("Genesis Block", []byte{})
+}
