@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
+	. "github.com/LowEntropyBody/basic-blockchain/block"
 	. "github.com/LowEntropyBody/basic-blockchain/blockchain"
 )
 
