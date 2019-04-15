@@ -8,7 +8,7 @@ import (
 // Blockchain struct
 type Blockchain struct {
 	tip []byte
-	db  *bolt.DB
+	Db  *bolt.DB
 }
 
 var dbFile = "blockchain.db"
@@ -44,7 +44,7 @@ func NewBlockchain() *Blockchain {
 func (bc *Blockchain) AddBlock(data string) {
 	var lastHash []byte
 
-	bc.db.View(func(tx *bolt.Tx) error {
+	bc.Db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(blocksBucket))
 		lastHash = b.Get([]byte("l"))
 
@@ -53,7 +53,7 @@ func (bc *Blockchain) AddBlock(data string) {
 
 	newBlock := NewBlock(data, lastHash)
 
-	bc.db.Update(func(tx *bolt.Tx) error {
+	bc.Db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(blocksBucket))
 		b.Put(newBlock.Hash, newBlock.Serialize())
 		b.Put([]byte("l"), newBlock.Hash)
@@ -65,7 +65,7 @@ func (bc *Blockchain) AddBlock(data string) {
 
 // Iterator -
 func (bc *Blockchain) Iterator() *BlockchainIterator {
-	bci := &BlockchainIterator{bc.tip, bc.db}
+	bci := &BlockchainIterator{bc.tip, bc.Db}
 
 	return bci
 }
